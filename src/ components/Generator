@@ -1,0 +1,58 @@
+const data = [
+ {  id: 1,
+    advice: "brush yur teeth 3 times a day"
+ },
+ {  id: 2,
+    advice: "mind the (gender) gap!"
+ },
+ {  id: 3,
+    advice: "don't look back in  anger"
+ },
+ {  id: 4,
+    advice: "be kind"
+ },
+ {  id: 5,
+    advice: "work hard, play harder"
+ },
+]
+
+export default function App () {
+    const initialState = {count: 0};
+
+    function reducer(state, action) {
+        switch (action.type) {
+            case "next":
+                return {count: state.count +1};
+            case "previous":
+                return {count: state.count -1};
+            default:
+                throw new Error();
+        }
+     }
+
+    const [state, dispatch] = React.useReducer(reducer, initialState);
+    let advice = data[state.count];
+
+    return (
+        <div className={"container"}>
+            <div className={"card-container"}> 
+                <div className={"card"}> 
+                    <h2>{advice.advice}</h2>    
+                    <p className={"card-text"}>Postnumber: #{advice.id}</p>
+                </div>
+            </div>
+            <div className={"card__actions"}> 
+                <button disabled={state.count < 1}
+                className={"btn--previous"}
+                onclick={() => dispatch({type: "previous"})}
+                >Previous</button>
+
+                <button disabled={state.count >= data.length - 1}
+                className={"btn--next"}
+                onclick={() => dispatch({type: "next"})}
+                >Next</button>
+            </div>    
+        </div> 
+
+    )
+}
